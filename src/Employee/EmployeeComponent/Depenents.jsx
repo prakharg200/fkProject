@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import "./employeeStyle.css"
 
 export default function Dependents() {
+  let LOCAL_STR="store";
   const navigate = useNavigate()
   let [array,setArray]=useState([])
 //   console.log(array)
@@ -48,15 +50,28 @@ function updatedata(){
  setInputdata({fullname:"", rel:"", date:"", occ:""})
 }
 
+// LOCALSTORAGE SEETINGS
+useEffect(()=>{
+  let retiveData=JSON.parse(localStorage.getItem(LOCAL_STR));
+  if(retiveData){
+    setArray(retiveData)
+  }
+},[])
 
-  return (
+ useEffect(()=>{
+  localStorage.setItem(LOCAL_STR,JSON.stringify(array))
+ },[array])
+
+ return (
     
 <>
-<h4 className='text-left p-3'>Dependents</h4>
-      
-<div className='container-fluid p-3'>
-<button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">+NEW</button>
-   
+<div className=' container-fluid p-3'>
+<div className="header">
+<button onClick={() => navigate(-1)} className="back-button1">Back</button>
+<h3 className='text-left p-3'>Dependents</h3>  
+<button type="button" class="add-button btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">+NEW</button>
+</div>
+
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -90,8 +105,8 @@ function updatedata(){
 <div className='container-fluid'>
 <div class="table-responsive">
   <table class="table table-bordered">
-  <thead className='text-center'>
-    <tr>
+  <thead className='text-center thead'>
+    <tr className='role-table-heading'>
       <th scope="col">Full Name</th>
       <th scope="col">Relationship</th>
       <th scope="col">DOB</th>
@@ -118,8 +133,7 @@ function updatedata(){
  
   </thead>
   </table>
-</div>
-<button onClick={() => navigate(-1)} className="back-button">Back</button> 
+</div> 
 </div>
 
     </>

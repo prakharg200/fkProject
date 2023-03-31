@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { MdDelete } from 'react-icons/md';
 import { BiEdit } from 'react-icons/bi';
+import { useNavigate } from 'react-router-dom';
 
 export default function LeaveTable() {
+    const navigate = useNavigate()
     const [ltableData, setLTableData] = useState([]);
     const [showNewComponent, setShowNewComponent] = useState(false);
     const [editLeaveIndex, setEditLeaveIndex] = useState(null);
@@ -64,16 +66,15 @@ export default function LeaveTable() {
     return (
         <div className='component'>
             {!showNewComponent && (
-                <div className='heading'>
+                <div className='header wrk-exp'>
+                    <button onClick={() => navigate(-1)} className="back-button1">Back</button>
                     <h2 className="text">Leave Application</h2>
-                    <div className='ladd-button'>
-                        <button className="text"  onClick={() => setShowNewComponent(true)}>+ Add</button>
-                    </div>
+                    <button className="add-button bg-dark text-white text" onClick={() => setShowNewComponent(true)}>+ Add</button>
                 </div>
-                
+
             )}
             {!showNewComponent && (
-                <table>
+                <table className='wrk-exp-table'>
                     <thead>
                         <tr>
                             <th>Leave type</th>

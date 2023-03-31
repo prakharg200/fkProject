@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { MdDelete } from 'react-icons/md';
 import { BiEdit } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
+import '../employeeStyle.css';
 
 export default function ETable() {
     const navigate=useNavigate()
@@ -67,26 +68,25 @@ export default function ETable() {
     return (
         <div className='component'>
             {!showNewComponent && (
+                
                 <div className='heading'>
-                    <div>
-                    <h2 className="text">Employee Education Details
-                    </h2>
-                    </div>
-                    <div className='eadd-button'>
-                        <button onClick={() => setShowNewComponent(true)}>+ Add</button>
-                    </div>
+                    <button className='back-button1' onClick={() => navigate(-1)}>Back</button> 
+                    <h2 className="text">Employee Education Details</h2>
+                    {/* <div className='eadd-button'> */}
+                        <button className='add-button mr-2' style={{backgroundColor:"#555"}} onClick={() => setShowNewComponent(true)}>+ Add</button>
+                    {/* </div> */}
                 </div>
                 
             )}
             {!showNewComponent && (
-                <table>
+                <table className='edu-table'>
                     <thead>
                         <tr>
                             <th>School/University</th>
                             <th>Degree</th>
                             <th>Grade</th>
-                            <th>Passing Of Year</th>
-                            <th>Actions</th>
+                            <th style={{width:"15%"}}>Passing Of Year</th>
+                            <th style={{width:"10%"}}>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -97,11 +97,10 @@ export default function ETable() {
                                     <td>{record.degree}</td>
                                     <td>{record.grade}</td>
                                     <td>{record.poy}</td>
-                                    <td>
-                                        <nav>
-                                            <BiEdit onClick={() => editTableRow(index)} style={{ paddingRight: "0.5rem" }} />
-                                            <MdDelete onClick={() => deleteTableRow(record.id)} />
-                                        </nav>
+                                    <td className='edu-action-main'>
+                                      <BiEdit className='edu-edit edu-action' onClick={() => editTableRow(index)} />
+                                      <MdDelete className='edu-edit edu-action' onClick={() => deleteTableRow(record.id)} />
+
                                     </td>
                                 </tr>
                             )
@@ -133,8 +132,8 @@ export default function ETable() {
                                 <input type='text' id='poy' name='poy' value={poy} placeholder='Year' onChange={(e) => setPoy(e.target.value)} required />
                             </div>
                             <div className='form-group'>
-                                <button type='submit' onClick={handleAdd}>{editIndex === null ? 'Add' : 'Update'}</button>
-                                <button onClick={() => setShowNewComponent(false)}>Cancel</button>
+                                <button className='add-btn007' type='submit' onClick={handleAdd}>{editIndex === null ? 'Add' : 'Update'}</button>
+                                <button className='add-btn007' onClick={() => setShowNewComponent(false)}>Cancel</button>
                             </div>
                         </form>
                     </div>

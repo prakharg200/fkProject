@@ -66,7 +66,7 @@ function updateinfo(){
 
             <br />
 
-            <table border="1" >
+            <table className='city-table' border="1" >
                 <tbody>
                     <tr>
                         <th>Country</th>

@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import './LeaveApp.css'
+// import './LeaveApp.css'
 import LeaveTable from './LeaveTable'
-import { useNavigate } from 'react-router-dom';
 import data from './LeaveData.json'
 
 
 export default function LeaveApp() {
     const [showNewComponent, setShowNewComponent] = useState(false);
-    const navigate = useNavigate()
 
     const handleClick = () => {
         setShowNewComponent(true);
@@ -31,7 +29,6 @@ export default function LeaveApp() {
                 </>
                 )}
             </div>
-            <button onClick={() => navigate(-1)} className="back-button">Back</button> 
         </div>
     )
 }

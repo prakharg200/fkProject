@@ -16,6 +16,7 @@ import PersonalInfo from './Employee/EmployeeComponent/PersonalInfo'
 import Education from './Employee/EmployeeComponent/Education/Education'
 import WorkExp from './Employee/EmployeeComponent/WorkExp/WorkExp';
 import Add2 from "./Admin/projectbidding/Add";
+import Edit2 from "./Admin/projectbidding/Edit";
 import Add from "./Admin/portalmaster/Add"
 import Edit from "./Admin/portalmaster/Edit"
 import Dependents from './Employee/EmployeeComponent/Depenents';
@@ -23,7 +24,7 @@ import LeaveApp from './Employee/EmployeeComponent/LeaveApp/LeaveApp';
 import Country from './HumanResources/HR-Components/Country/Country';
 import Salary from "./HumanResources/HR-Components/salary/ProductList"
 import DepartmentHr from './HumanResources/HR-Components/Department/Department';
-import PositionHr from './HumanResources/HR-Components/Position/Position'
+import PositionHr from './HumanResources/HR-Components/Position/Position.jsx'
 import State from './HumanResources/HR-Components/State/State';
 
 export default function App() {
@@ -42,6 +43,7 @@ export default function App() {
         <Route path='/add2' element={<Add2/>} />
         <Route path='/add' element={<Add/>} />
         <Route path='/edit' element={<Edit/>} />
+        <Route path='/edit2' element={<Edit2/>} />
     {/* ADMIN PAFGE ROUTES */}
 
     {/* EMPLOYEE PAGE ROUTING */}

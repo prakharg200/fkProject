@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
 
-import './WorkExp.css'
+
 import WTable from './WTable'
 import { RiAddFill } from 'react-icons/ri';
 
@@ -12,7 +11,7 @@ export default function WorkExp() {
     const [fromDate, setfromDate] = useState('');
     const [toDate, setToDate] = useState('');
     const [designation, setDesignation] = useState('');
-    const navigate = useNavigate()
+    
 
 
     const handleSubmit = (e) => {
@@ -45,8 +44,6 @@ export default function WorkExp() {
                 </>
                 )}
             </div>
-
-            <button onClick={() => navigate(-1)} className="back-button">Back</button> 
         </div>
     )
 }

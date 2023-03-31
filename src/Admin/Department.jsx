@@ -59,6 +59,7 @@ const Department = () => {
   return (
     <div className="table-container">
       <div className="header">
+      <Button onClick={() => navigate(-1)} className="back-button1">Back</Button> 
         <h3 className="text">Department Details</h3>
         <Button className="add-button btn-dark" onClick={handleAdd}>
         <i className="bi bi-plus-lg"></i>Add 
@@ -66,11 +67,11 @@ const Department = () => {
       </div>
 
       <Table bordered hover size="sm">
-        <thead className="thead-light">
-          <tr>
+        <thead className="thead-light thead">
+          <tr className="role-table-heading">
             <th>Company name</th>
             <th>Department</th>
-            <th className="actions-column"></th>
+            <th className="actions-column">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -87,7 +88,6 @@ const Department = () => {
         </tbody>
       </Table>
 
-      <Button onClick={() => navigate(-1)} className="back-button">Back</Button> 
 
       <Modal show={showAdd} onHide={() => setShowAdd(false)}>
         <Modal.Header closeButton>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 // import Sidebar from '../../Sidebar'
-import './Education.css'
+// import './Education.css'
 import { RiAddFill } from 'react-icons/ri';
 import data from './Edata.json'
 import { useNavigate } from 'react-router-dom';
@@ -81,7 +81,6 @@ export default function Education() {
                 </>
                 )}
             </div>
-            <button onClick={() => navigate(-1)} className="back-button">Back</button> 
         </div>
     )
 }

@@ -1,249 +1,170 @@
-import * as React from 'react';
-import { useState, useEffect } from 'react';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import  Typography  from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
-import Stack from "@mui/material/Stack";
-import { db } from "../../Firebase-config";
-import {
-  collection,
-  getDocs,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-  doc,
-} from "firebase/firestore";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
+import React, { useState } from "react";
+import { Table, Button, Modal, Form } from "react-bootstrap";
+import { useNavigate} from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
 import Swal from "sweetalert2";
-import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
-import Modal from '@mui/material/Modal';
-import Add from './Add'
-import Edit from './Edit'
-import { useAppStore } from '../../appStore';
 
+//import "./style.css";
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
+const TableData = [
+  { company: "Alpha",  department: "1" },
+  { company: "Cogni",  department: "2" },
+  { company: "Apple",  department: "3" },
+  { company: "Google",  department: "4" },
+  
+];
 
-export default function Department() {
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  //const [rows, setRows] = useState([]);
-  const empCollectionRef = collection(db, "position");
-  const [open, setOpen] = useState(false);
-  const [formid, setFormid]=useState("")
-  const [editopen , setEditOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleEditOpen =() =>setEditOpen(true);
-  const handleClose =() => setOpen(false);
-  const handleEditClose = () => setEditOpen(false);
-  const setRows = useAppStore((state) => state.setRows);
-  const rows = useAppStore ((state) => state.rows);
+const Department = () => {
+  const [tableData, setTableData] = useState(TableData);
+  const [showAdd, setShowAdd] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
+  const [company, setCompany] = useState("");
+  const [department, setDepartment] = useState("");
+  const [editIndex, setEditIndex] = useState(null);
 
-  useEffect(() => {
-    getUsers();
-  }, []);
+  let navigate = useNavigate();
 
-  const getUsers = async () => {
-    const data = await getDocs(empCollectionRef);
-    setRows(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+  const handleAdd = () => {
+    setCompany("");
+    setDepartment("");
+    setShowAdd(true);
   };
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
+  const handleAddSave = () => {
+    setTableData([...tableData, { company, department }]);
+    setShowAdd(false);
+    Swal.fire("Submitted!",  "success")
+
   };
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
+  const handleEdit = (index) => {
+    setCompany(tableData[index].company);
+    setDepartment(tableData[index].department);
+    setEditIndex(index);
+    setShowEdit(true);
   };
 
-  const deleteUser = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.value) {
-        deleteApi(id);
-      }
-    });
-  }
+  const handleEditSave = () => {
+    const newData = [...tableData];
+    newData[editIndex] = { company, department };
+    setTableData(newData);
+    setShowEdit(false);
+    Swal.fire("Submitted!", "Your file has been updated", "success")
 
-  const deleteApi = async (id) => {
-    const userDoc = doc(db, "position", id);
-    await deleteDoc(userDoc);
-    Swal.fire("Deleted!", "Your file has been deleted.", "success");
-    getUsers();
   };
 
-  const filterData = (v) => {
-    if (v) {
-      setRows([v]);
-    } else {
-      setRows([]);
-      getUsers();
-    }
+  const handleDelete = (index) => {
+    const newData = [...tableData];
+    newData.splice(index, 1);
+    setTableData(newData);
   };
 
-  const editData=(id,company,department)=>{
-    const data ={
-      id:id,
-      company:company,
-      department:department,
-     
-    };
-    setFormid(data);
-    handleEditOpen();
-  };
 
   return (
-    <>
-    <div>
-    <Modal
-      open={open}
-      //onClose={handleClose}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
-      <Box sx={style}>
-        <Add closeEvent={handleClose}/>
-      </Box>
-    </Modal>
-    <Modal
-      open={editopen}
-      //onClose={handleClose}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
-      <Box sx={style}>
-        <Edit closeEvent={handleEditClose} fid={formid}/>
-      </Box>
-    </Modal>
-  </div>
-    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-          <Typography
-            gutterBottom
-            variant="h5"
-            component="div"
-            sx={{ padding: "20px" }}
-          >
-            Department  Details
-          </Typography>
-          <Divider />
-          <Box height={10} />
-          <Stack direction="row" spacing={2} className="my-3 mb-2">
-            
-            <Typography
-              variant="h6"
-              component="div"
-              sx={{ flexGrow: 1 }}
-            ></Typography>
-            <Button  variant="contained" endIcon={<AddCircleIcon />}onClick={handleOpen}>
-              Add
-            </Button>
-          </Stack>
-          
-          <Box height={20} />
-      <TableContainer sx={{ maxHeight: 440 }}>
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-                
-                <TableCell align="center"style={{ minWidth: "100px" }} >
-                  Company
-                </TableCell>
-                <TableCell align="center"style={{ minWidth: "100px" }} >
-                  Department
-                </TableCell>
-               
-                <TableCell align="left"style={{ minWidth: "100px" }} >
-                  Action
-                </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
-                return (
-                  <TableRow hover role="checkbox" tabIndex={-1} >
+    <div className="table-container">
+      <div className="header">
+      <Button onClick={() => navigate(-1)} className="back-button1">Back</Button> 
+        <h3 className="text">Department Details</h3>
+        <Button className="add-button btn-dark" onClick={handleAdd}>
+        <i className="bi bi-plus-lg"></i>Add 
+        </Button>
+      </div>
 
-                        <TableCell key={row.id} align="center">
-                         {row.company}
-                        </TableCell>
-                        <TableCell key={row.id} align="center">
-                         {row.department}
-                        </TableCell>
-                       
-                       
-                        <TableCell align="left">
-                          <Stack spacing={2} direction="row">
-                            <EditIcon
-                              style={{
-                                fontSize: "20px",
-                                color: "blue",
-                                cursor: "pointer",
-                              }}
-                              className="cursor-pointer"
-                              // onClick={() => editUser(row.id)}
-                              onClick={()=>{
-                                editData(row.id, row.company, row.department );
-                              }}
-                            />
-                            <DeleteIcon
-                              style={{
-                                fontSize: "20px",
-                                color: "darkred",
-                                cursor: "pointer",
-                              }}
-                              onClick={() => {
-                                deleteUser(row.id);
-                              }}
-                            />
-                          </Stack>
-                        </TableCell>
-                  </TableRow>
-                );
-              })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-    </Paper>
-    </>
-  );
+      <Table bordered hover size="sm">
+        <thead className="thead-light thead">
+          <tr className="role-table-heading">
+            <th>Company name</th>
+            <th>Department</th>
+            <th className="actions-column">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {tableData.map((data, index) => (
+            <tr key={index}>
+              <td>{data.company}</td>
+              <td>{data.department}</td>
+              <td className="actions-column">
+                <i className="bi bi-pencil-square action-icons" onClick={() => handleEdit(index)}></i>
+                <i className="bi bi-trash3-fill action-icons" onClick={() => handleDelete(index)}></i>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+
+
+      <Modal show={showAdd} onHide={() => setShowAdd(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title className="text">Add New Row</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group>
+              <Form.Label>Company</Form.Label>
+              <Form.Control
+                type="text"
+                value={company}
+                onChange={(e) => setCompany(e.target.value)}
+              />
+            </Form.Group>
+
+            <Form.Group>
+              <Form.Label>Department</Form.Label>
+              <Form.Control
+                type="text"
+                value={department}
+                onChange={(e) =>setDepartment(e.target.value)}
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="btn btn-dark" className="btn" onClick={() => setShowAdd(false)}>
+            Close
+          </Button>
+          <Button variant="btn btn-dark" className="btn" onClick={handleAddSave}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal show={showEdit} onHide={() => setShowEdit(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title className="text">Edit Row</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group>
+              <Form.Label>Company</Form.Label>
+              <Form.Control
+                type="text"
+                value={company}
+                onChange={(e) => setCompany(e.target.value)}
+              />
+            </Form.Group>
+
+            <Form.Group>
+              <Form.Label>Department</Form.Label>
+              <Form.Control
+                type="text"
+                value={department}
+                onChange={(e) => setDepartment(e.target.value)}
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="btn btn-dark" className="btn" onClick={() => setShowEdit(false)}>
+            Close
+          </Button>
+          <Button variant="btn btn-dark" className="btn" onClick={handleEditSave}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </div>
+  )
 }
+
+export default Department

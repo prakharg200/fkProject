@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Table, Button, Modal, Form } from "react-bootstrap";
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "./style.css";
@@ -59,15 +59,16 @@ const Role = () => {
   return (
     <div className="table-container">
       <div className="header">
+        <button onClick={() => navigate(-1)} className="back-button1">Back</button>
         <h3 className="text">Role Details</h3>
         <Button className="add-button btn-dark" onClick={handleAdd}>
-        <i className="bi bi-plus-lg"></i>Add 
+          <i className="bi bi-plus-lg"></i>Add
         </Button>
       </div>
 
-      <Table className="table"  bordered hover size="sm">
+      <Table className="table" bordered hover size="sm">
         <thead className="thead">
-          <tr>
+          <tr className="role-table-heading">
             <th>Company name</th>
             <th>Role</th>
             <th className="actions-column">Actions</th>
@@ -86,11 +87,8 @@ const Role = () => {
           ))}
         </tbody>
       </Table>
-
-      <Button onClick={() => navigate(-1)} className="back-button">Back</Button> 
-
       <Modal show={showAdd} onHide={() => setShowAdd(false)}>
-        <Modal.Header  closeButton>
+        <Modal.Header closeButton>
           <Modal.Title className="text">Add New Row</Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -106,7 +104,7 @@ const Role = () => {
 
             <Form.Group>
               <Form.Label>Position</Form.Label>
-              <Form.Control 
+              <Form.Control
                 type="text"
                 value={position}
                 onChange={(e) => setPosition(e.target.value)}
@@ -118,7 +116,7 @@ const Role = () => {
           <Button variant="btn btn-dark" className="btn" onClick={() => setShowAdd(false)}>
             Close
           </Button>
-          <Button variant="btn btn-dark"  className="btn" onClick={handleAddSave}>
+          <Button variant="btn btn-dark" className="btn" onClick={handleAddSave}>
             Save Changes
           </Button>
         </Modal.Footer>

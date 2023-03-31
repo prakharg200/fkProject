@@ -58,7 +58,8 @@ const Position = () => {
 
   return (
     <div className="table-container">
-      <div className="header p-3">
+      <div className="header ">
+      <Button onClick={() => navigate(-1)} className="back-button1">Back</Button> 
         <h3 className="text">Position Details</h3>
         <Button className="add-button btn-dark" onClick={handleAdd}>
         <i className="bi bi-plus-lg"></i>Add 
@@ -66,11 +67,11 @@ const Position = () => {
       </div>
 
       <Table bordered hover size="sm">
-        <thead className="thead-light">
-          <tr>
+        <thead className="thead-light thead">
+          <tr className="role-table-heading">
             <th>Company</th>
             <th>Position</th>
-            <th className="actions-column"></th>
+            <th className="actions-column">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -87,7 +88,6 @@ const Position = () => {
         </tbody>
       </Table>
 
-      <Button onClick={() => navigate(-1)} className="back-button">Back</Button> 
 
       <Modal show={showAdd} onHide={() => setShowAdd(false)}>
         <Modal.Header closeButton>

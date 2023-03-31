@@ -8,7 +8,7 @@ function Navbar(props) {
             <div className="navbar">
             <ul>
             <i class="fa fa-user-circle-o m-0"></i>
-            <a>User user</a>
+            <a style={{color:"white"}}>User user</a>
             </ul>
             </div>
         </nav>

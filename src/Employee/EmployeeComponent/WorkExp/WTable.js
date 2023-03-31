@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { MdDelete } from 'react-icons/md';
 import { BiEdit } from 'react-icons/bi';
-
+import { useNavigate } from 'react-router-dom';
 export default function WTable() {
     const [wtableData, setWTableData] = useState([]);
     const [showNewComponent, setShowNewComponent] = useState(false);
@@ -10,6 +10,7 @@ export default function WTable() {
     const [designation, setDesignation] = useState('');
     const [fromDate, setFromDate] = useState('');
     const [toDate, setToDate] = useState('');
+    const navigate = useNavigate()
 
     useEffect(() => {
         const storedData = JSON.parse(localStorage.getItem('workExperienceData')) || [];
@@ -56,25 +57,26 @@ export default function WTable() {
         setWTableData(updatedData);
         localStorage.setItem('workExperienceData', JSON.stringify(updatedData));
     };
-    function handleAdd(){
-        setTimeout(()=>{
+    function handleAdd() {
+        setTimeout(() => {
             setShowNewComponent(false)
-        },100)
+        }, 100)
     }
 
     return (
         <div className='component'>
             {!showNewComponent && (
-                <div className='heading'>
-                <h2 className="text" >Employee Work Experience Details</h2>
-                <div className='wadd-button'>
-                    <button className="text"  onClick={() => setShowNewComponent(true)}>+ Add</button>
+                <div className='header wrk-exp'>
+                    <button onClick={() => navigate(-1)} className="back-button1">Back</button>
+                    <h2 className="text" >Employee Work Experience Details</h2>
+                    <div className='wadd-button'>
+                        <button style={{color:"#fff"}}  className="add-button btn-dark text" onClick={() => setShowNewComponent(true)}>+ Add</button>
+                    </div>
                 </div>
-            </div>
-                
+
             )}
             {!showNewComponent && (
-                <table>
+                <table className='wrk-exp-table'>
                     <thead>
                         <tr>
                             <th>Company Name</th>

@@ -24,25 +24,33 @@ td{
 
 .header{
     display: flex;
-    margin-bottom: 20px;
-    
+    margin-bottom: 0px !important;
+    padding: 10px 35px;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.back-button{
-    position: absolute;
-    bottom: 50px;
-    left: 50px;
+.back-button1{
+    display: block;
+     padding:10px 30px !important;
+    font-size: 17px; 
     background-color: grey;
-    border: 1px solid black;
+    border-radius: 5px;
 }
 
 .add-button{
-    position:absolute;
-    right: 40px;
-    padding: 5px;
+    position:static !important;
+    /* right: 40px; */
+    padding: 10px 30px;
     font-size: 17px;
     font-family: "Raleway";
-    
+    overflow: hidden;
+    box-shadow:5px 5px 3px gray ;
+    transition: all ease-in-out 0.1s;
+}
+.add-button:hover{
+   transform: translate(5px,5px);
+   box-shadow: none;
 }
 
 .add-button i{
@@ -62,10 +70,33 @@ td{
     font-family: "Raleway";
 }
 
-.h3{
-    margin:"10px 60px";
+.header h3{
     font-family: "Raleway";
+    font-size: 35px;
+    color: #333;
+    font-weight: 600;
 }
 .btn{
     font-family: "Raleway";
+}
+/* CUSTOM STYLES */
+    /* ROLE STYLING */
+    .thead tr.role-table-heading th{
+        font-size: 22px;
+    }
+    .actions-column{
+        padding: 10px 40px !important;
+    }
+    .actions-column i{
+        font-size: 25px;
+        padding: 0px 10px;
+    }
+
+    /* PROJECT BIDDING STYLING */
+
+.biddingAction{
+    font-size: 25px;
+}
+.table.th{
+    margin: 0%;
 }
